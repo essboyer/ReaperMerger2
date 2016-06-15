@@ -1,49 +1,51 @@
 <?php
-class Parser { 
-	const OPEN = "<";
-	const CLOSE = ">";
-	const PROJ_OPEN = "REAPER_PROJECT";
-	const TRACK = "TRACK";
 
-	private $filePath = "/Users/seanboyer/Dev/tools/ReaperMerger/Jimmy.rpp";
-	private $DOM;
+class Parser {
 
+    const OPEN = "<";
+    const CLOSE = ">";
+    const PROJ_OPEN = "REAPER_PROJECT";
+    const TRACK = "TRACK";
 
-	// line: <name other shit
+    private $filePath = "C:/dev/ReaperMerger2/Jimmy.rpp";
+    private $DOM;
 
-	public function Parser() {
+    // line: <name other shit
 
-		$DOM = array();
-		$tracks = array();
+    public function Parser() {
 
-		$contents = file_get_contents($filePath);
-		$lines = explode("\n", $contents);
+        $this->DOM = array();
+        $tracks = array();
 
-		foreach ($lines as $line) {
-			$this->processLine($line);
-		}
-	}
+        $contents = file_get_contents($this->filePath);
+        $lines = explode("\n", $contents);
+        
+        foreach ($lines as $line) {
+            $this->processLine($line);
+        }
+    }
 
-	private function processLine($line) {
-		$chunks = explode(" ", $line);
+    private function processLine($line) {
+        $chunks = explode(" ", $line);
+            print_r($chunks); die();
 
-		if (self::has($line, OPEN)) {
-			$item = array(trim($chunk[0], OPEN) => array_splice($chunks, 1));
-		}
+        if (self::has($line, self::OPEN)) {
+            $item = array(trim($chunks[0], self::OPEN) => array_splice($chunks, 1));
+        }
 
-		if (self::hasClose($line)) {
+        if (self::has($line, self::CLOSE)) {
+            
+        }
 
-		}
+        foreach ($chunks as $chunk) {
+            
+        }
+    }
 
-		foreach ($chunks as $chunk) {
-
-		}
-
-	}
-
-
-	private static function has($line, $const) {
-		return stripos($line, $const) === false;
-	}
+    private static function has($line, $const) {
+        return stripos($line, $const) === false;
+    }
 
 }
+
+$p = new Parser();
