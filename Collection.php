@@ -1,6 +1,8 @@
 <?php
 
 class Collection {
+    
+    private $items = array();
 
     public function add($obj, $key = null) {
         if ($key == null) {

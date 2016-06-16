@@ -1,23 +1,16 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of DOM
- *
- * @author Boyer
+ * Reaper Domain Object Model
+ * 
  */
-class DOM {
+class ReaperDOM {
 
     public $projectDetails;
     public $items;
     
     public function __construct() {
-        $this->items = new Collection();
+        $this->items = new SplObjectStorage();
     }
 
     public function addItem(DomItem $obj) {
@@ -31,13 +24,14 @@ class DOM {
 
 class DOMItem {
 
+    public $name;
     public $details;
     public $children;
     public $parentRef;
 
     public function __construct(DOMItem &$parent) {
         $this->details = array();
-        $this->children = new Collection();
+        $this->children = new SplObjectStorage();
         $this->parentRef = $parent;
     }
 
@@ -88,5 +82,9 @@ class TempoEnvEx extends DOMItem {
 }
 
 class ProjBay extends DOMItem {
+    
+}
+
+class Extensions extends DOMItem {
     
 }

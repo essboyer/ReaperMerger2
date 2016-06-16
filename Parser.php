@@ -14,9 +14,10 @@ class Parser {
 
     public function Parser() {
 
-        $this->DOM = array();
-        $tracks = array();
-
+        $this->DOM = new ReaperDOM();
+        
+        $currentItem = null;
+        
         $contents = file_get_contents($this->filePath);
         $lines = explode("\n", $contents);
         
@@ -26,11 +27,13 @@ class Parser {
     }
 
     private function processLine($line) {
-        $chunks = explode(" ", $line);
-            print_r($chunks); die();
-
+        $chunks = explode(" ", $line); // everything after the first word
+            
         if (self::has($line, self::OPEN)) {
-            $item = array(trim($chunks[0], self::OPEN) => array_splice($chunks, 1));
+            //$item = array(trim($chunks[0], self::OPEN) => array_splice($chunks, 1));
+            $first = trim(trim($chunks[0], self::OPEN)); //the first word
+
+            print_r($chunks); die("...die");
         }
 
         if (self::has($line, self::CLOSE)) {
@@ -43,7 +46,7 @@ class Parser {
     }
 
     private static function has($line, $const) {
-        return stripos($line, $const) === false;
+        return stripos($line, $const) !== false;
     }
 
 }
