@@ -9,6 +9,7 @@ class Parser {
 
     private $filePath = "C:/dev/ReaperMerger2/Jimmy.rpp";
     private $DOM;
+    private $lines;
 
     // line: <name other shit
 
@@ -19,14 +20,19 @@ class Parser {
         $currentItem = null;
         
         $contents = file_get_contents($this->filePath);
-        $lines = explode("\n", $contents);
+        $this->lines = explode("\n", $contents);
         
-        foreach ($lines as $line) {
-            $this->processLine($line);
-        }
+        processLines();
+        
+//        foreach ($lines as $line) {
+//            $this->processLine($line);
+//        }
     }
 
-    private function processLine($line) {
+    private function processLines(DOMItem $di = null) {
+        
+        $line = array_pop($this->lines);
+        
         $chunks = explode(" ", $line); // everything after the first word
             
         if (self::has($line, self::OPEN)) {
@@ -34,15 +40,25 @@ class Parser {
             $first = trim(trim($chunks[0], self::OPEN)); //the first word
 
             print_r($chunks); die("...die");
-        }
-
-        if (self::has($line, self::CLOSE)) {
+            
+            // create a new dom item for this opening thing
+            $new = new DOMItem();
+            $new->name = $first;
+            $new->details = $chunks;
+            
+        } elseif (self::has($line, self::CLOSE)) {
+            
+        } elseif (strlen($line) > 1) { // it's a child array with the detail name as key, with an array of the properties as val?
+            
+        } else { // fail case, doc is over
             
         }
+        
+        processLines($di);
 
-        foreach ($chunks as $chunk) {
-            
-        }
+//        foreach ($chunks as $chunk) {
+//            
+//        }
     }
 
     private static function has($line, $const) {
