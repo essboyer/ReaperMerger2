@@ -31,20 +31,24 @@ class Parser {
 
     private function processLines(DOMItem $di = null) {
         
+        if ($di === null) {
+            // brand new top-level item (track, etc)
+        }
+        
         $line = array_pop($this->lines);
         
-        $chunks = explode(" ", $line); // everything after the first word
+        $itemDetails = explode(" ", $line); // everything after the first word
             
         if (self::has($line, self::OPEN)) {
             //$item = array(trim($chunks[0], self::OPEN) => array_splice($chunks, 1));
-            $first = trim(trim($chunks[0], self::OPEN)); //the first word
+            $first = trim(trim($itemDetails[0], self::OPEN)); //the first word
 
-            print_r($chunks); die("...die");
+            print_r($itemDetails); die("...die");
             
             // create a new dom item for this opening thing
             $new = new DOMItem();
             $new->name = $first;
-            $new->details = $chunks;
+            $new->details = $itemDetails;
             
         } elseif (self::has($line, self::CLOSE)) {
             
